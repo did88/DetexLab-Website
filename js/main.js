@@ -315,7 +315,7 @@
             ].join("\n");
 
       window.location.href =
-        `mailto:sallyang305@detexlab.com?subject=${encodeURIComponent(subject)}` +
+        `mailto:contact@detexlab.com?subject=${encodeURIComponent(subject)}` +
         `&body=${encodeURIComponent(body)}`;
       formStatus.textContent = copy.formConfirmed;
       formStatus.classList.add("is-confirmed");
