@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://detexlab.com/sitemap.xml

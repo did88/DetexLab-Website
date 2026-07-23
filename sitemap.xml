@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://detexlab.com/</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://detexlab.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/index-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/" />
+  </url>
+  <url>
+    <loc>https://detexlab.com/index-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://detexlab.com/" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/index-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/" />
+  </url>
+  <url>
+    <loc>https://detexlab.com/technology.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://detexlab.com/technology.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/technology-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/technology.html" />
+  </url>
+  <url>
+    <loc>https://detexlab.com/technology-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://detexlab.com/technology.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/technology-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/technology.html" />
+  </url>
+</urlset>

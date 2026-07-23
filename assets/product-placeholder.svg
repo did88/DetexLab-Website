@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="960" viewBox="0 0 1200 960" role="img" aria-labelledby="title desc">
+  <title id="title">제품 사진 교체 예정</title>
+  <desc id="desc">실제 제공 제품 사진으로 교체하기 위한 자리표시자</desc>
+  <rect width="1200" height="960" fill="#edf5f9"/>
+  <path d="M0 150h1200M0 810h1200M150 0v960M1050 0v960" stroke="#d5e6ef" stroke-width="2"/>
+  <circle cx="600" cy="440" r="188" fill="#f8fbfd" stroke="#9fc6df" stroke-width="3" stroke-dasharray="12 14"/>
+  <circle cx="552" cy="410" r="62" fill="#b8d8e8"/>
+  <circle cx="648" cy="470" r="62" fill="#e9a7bc"/>
+  <path d="M578 443h44" stroke="#49677d" stroke-width="3" stroke-linecap="round"/>
+  <path d="m611 432 11 11-11 11" fill="none" stroke="#49677d" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="690" fill="#0b2b56" font-family="sans-serif" font-size="38" font-weight="700" text-anchor="middle">[제품 사진 교체 예정]</text>
+  <text x="600" y="740" fill="#738195" font-family="sans-serif" font-size="22" text-anchor="middle">실제 제공 제품 사진만 사용합니다</text>
+</svg>

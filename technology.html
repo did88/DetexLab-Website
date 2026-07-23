@@ -1,0 +1,545 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>기술 원리 | 디텍스랩(Detex Lab)</title>
+    <meta
+      name="description"
+      content="디텍스랩은 PCDA 기반 감응 구조와 분자 인식 요소를 결합한 페이퍼 센서 플랫폼을 개발하고 있습니다. 현재 실증용 시제품 단계이며 판매 전입니다."
+    />
+    <meta name="theme-color" content="#071d3d" />
+    <meta property="og:title" content="기술 원리 | 디텍스랩(Detex Lab)" />
+    <meta
+      property="og:description"
+      content="화학적 상호작용을 시각적 색 변화로 전달하는 PCDA 기반 페이퍼 센서 플랫폼의 원리를 안내합니다."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://detexlab.com/technology.html" />
+    <meta property="og:site_name" content="Detex Lab" />
+    <meta property="og:locale" content="ko_KR" />
+    <meta property="og:locale:alternate" content="en_US" />
+    <meta property="og:image" content="https://detexlab.com/assets/detex-sensor-concept-poster.jpg" />
+    <meta property="og:image:alt" content="Detex 페이퍼 센서 작동 원리 개념 이미지" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="기술 원리 | 디텍스랩(Detex Lab)" />
+    <meta name="twitter:description" content="화학적 상호작용을 시각적 색 변화로 전달하는 PCDA 기반 페이퍼 센서 플랫폼" />
+    <meta name="twitter:image" content="https://detexlab.com/assets/detex-sensor-concept-poster.jpg" />
+    <meta name="robots" content="index,follow,max-image-preview:large" />
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="canonical" href="https://detexlab.com/technology.html" />
+    <link rel="alternate" hreflang="ko" href="https://detexlab.com/technology.html" />
+    <link rel="alternate" hreflang="en" href="https://detexlab.com/technology-en.html" />
+    <link rel="alternate" hreflang="x-default" href="https://detexlab.com/technology.html" />
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "기술 원리 | 디텍스랩(Detex Lab)",
+        "url": "https://detexlab.com/technology.html",
+        "isPartOf": { "@type": "WebSite", "name": "Detex Lab", "url": "https://detexlab.com/" },
+        "about": "PCDA 기반 페이퍼 센서 플랫폼"
+      }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body class="detex-signal-system detex-technology-page">
+    <a class="skip-link" href="#main">본문으로 바로가기</a>
+
+    <header class="site-header" id="siteHeader">
+      <div class="container header-inner">
+        <a class="wordmark" href="index.html" aria-label="디텍스랩 홈">
+          <span class="wordmark-ko">디텍스랩</span>
+          <span class="wordmark-en">Detex Lab</span>
+        </a>
+
+        <nav class="primary-nav" id="primaryNav" aria-label="주요 메뉴">
+          <a href="index.html#problem">위험과 통계</a>
+          <a href="technology.html" class="active" aria-current="page">기술 원리</a>
+          <a href="index.html#development">개발 현황</a>
+          <a href="index.html#partnership">파트너십</a>
+          <a href="index.html#safety">안전 안내</a>
+          <a href="index.html#about">회사 소개</a>
+        </nav>
+
+        <div class="header-actions">
+          <div class="language-switch" aria-label="언어 선택">
+            <a href="technology.html" lang="ko" class="active" aria-current="page">KO</a>
+            <span aria-hidden="true">/</span>
+            <a href="technology-en.html" lang="en">EN</a>
+          </div>
+          <a class="button button-small button-primary header-cta" href="index.html">
+            홈으로
+          </a>
+          <button
+            class="menu-toggle"
+            id="menuToggle"
+            type="button"
+            aria-label="메뉴 열기"
+            aria-expanded="false"
+            aria-controls="primaryNav"
+          >
+            <span></span>
+            <span></span>
+          </button>
+        </div>
+      </div>
+    </header>
+
+    <main id="main">
+      <!-- SECTION 1. Technology Hero -->
+      <section class="tech-hero" id="tech-hero">
+        <div class="hero-grid" aria-hidden="true"></div>
+
+        <div class="container tech-hero-layout">
+          <p class="hero-kicker">
+            <span class="status-dot" aria-hidden="true"></span>
+            기술 원리 안내 · 제품 판매 페이지가 아닙니다
+          </p>
+          <h1>상호작용을 읽고,<br /><em>색 변화로 전달하는 센서</em></h1>
+          <p class="tech-hero-description">
+            Detex는 PCDA 기반 감응 구조와 목표 물질에 맞춰 설계한 분자 인식
+            요소를 결합해, 화학적 상호작용을 시각적 색 변화로 전달하는 페이퍼
+            센서 플랫폼을 개발하고 있습니다.
+          </p>
+
+          <ul class="tech-badges" aria-label="기술 개요">
+            <li>PCDA 기반</li>
+            <li>모듈형 센서 구조</li>
+            <li>실증용 시제품</li>
+          </ul>
+
+          <p class="tech-hero-note">
+            이 페이지는 기술의 개념적 원리를 설명합니다. 성능 수치, 판독 기준,
+            상세 사용 방법은 포함하지 않습니다.
+          </p>
+
+          <figure class="generated-media-card tech-concept-media">
+            <div class="generated-media-frame" data-video-player>
+              <video
+                muted
+                loop
+                autoplay
+                playsinline
+                preload="metadata"
+                poster="assets/detex-sensor-concept-poster.jpg"
+                aria-label="종이 섬유와 다층 센서 구조를 보여주는 AI 생성 개념 애니메이션"
+              >
+                <source
+                  media="(max-width: 680px)"
+                  src="assets/detex-sensor-concept-9x16.mp4"
+                  type="video/mp4"
+                />
+                <source
+                  src="assets/detex-sensor-concept-16x9.mp4"
+                  type="video/mp4"
+                />
+              </video>
+              <div class="generated-media-overlay">
+                <span>AI 생성 기술 개념 영상</span>
+                <button
+                  class="video-toggle"
+                  type="button"
+                  aria-label="영상 일시정지"
+                >
+                  일시정지
+                </button>
+              </div>
+            </div>
+            <figcaption>
+              실제 화학 시뮬레이션·제품 구조·시험 결과가 아닌 개념적 시각화입니다.
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <!-- SECTION 2. From Interaction to Color Change -->
+      <section class="section tech-steps-section" id="principle">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">FROM INTERACTION TO COLOR CHANGE</p>
+            <h2>상호작용에서<br />색 변화까지</h2>
+            <p class="section-lead">
+              Detex가 연구하는 감응 방식은 세 단계의 개념으로 설명할 수
+              있습니다. 각 단계는 설계 개념이며, 물질별 반응 조건이나 판독
+              기준을 나타내지 않습니다.
+            </p>
+          </div>
+
+          <ol class="step-flow">
+            <li class="step-card reveal">
+              <div class="step-index"><span>STEP</span><strong>1</strong></div>
+              <div class="step-figure" aria-hidden="true">
+                <svg viewBox="0 0 120 90" focusable="false">
+                  <path
+                    class="step-line"
+                    d="M22 74 V44 a20 20 0 0 1 20-20 h8"
+                  />
+                  <path
+                    class="step-line"
+                    d="M98 74 V44 a20 20 0 0 0-20-20 h-8"
+                  />
+                  <circle class="step-dot" cx="60" cy="30" r="9" />
+                  <path class="step-line step-line-soft" d="M14 74 H106" />
+                </svg>
+              </div>
+              <h3>목표 물질과의 상호작용</h3>
+              <p>
+                목표 물질에 맞춰 설계된 분자 인식 요소가 특정 화학적 상호작용을
+                유도합니다.
+              </p>
+            </li>
+
+            <li class="step-card reveal reveal-delay">
+              <div class="step-index"><span>STEP</span><strong>2</strong></div>
+              <div class="step-figure" aria-hidden="true">
+                <svg viewBox="0 0 120 90" focusable="false">
+                  <path class="step-line" d="M22 22 V68" />
+                  <path class="step-line" d="M36 22 V68" />
+                  <path class="step-line" d="M50 22 V68" />
+                  <path class="step-line step-line-soft" d="M70 45 H86" />
+                  <path class="step-line" d="M96 22 l8 20 -10 6 8 20" />
+                  <path class="step-line" d="M80 24 l-6 18 8 8 -6 18" />
+                </svg>
+              </div>
+              <h3>감응 구조의 변화</h3>
+              <p>
+                상호작용은 PCDA 기반 감응 구조의 배열 상태에 변화를 일으킬 수
+                있습니다.
+              </p>
+            </li>
+
+            <li class="step-card reveal reveal-delay-more">
+              <div class="step-index"><span>STEP</span><strong>3</strong></div>
+              <div class="step-figure">
+                <svg
+                  viewBox="0 0 120 90"
+                  role="img"
+                  aria-label="한 색에서 다른 색으로 이어지는 색 변화 신호를 나타낸 개념 도식"
+                >
+                  <defs>
+                    <linearGradient id="stepShift" x1="0" y1="0" x2="1" y2="0">
+                      <stop offset="0%" stop-color="#4c88bd" />
+                      <stop offset="100%" stop-color="#d86d93" />
+                    </linearGradient>
+                  </defs>
+                  <rect
+                    x="18"
+                    y="30"
+                    width="84"
+                    height="30"
+                    rx="8"
+                    fill="url(#stepShift)"
+                  />
+                  <path class="step-line step-line-soft" d="M18 72 H102" />
+                </svg>
+              </div>
+              <h3>시각적 색 변화</h3>
+              <p>
+                구조 변화는 육안으로 관찰할 수 있는 색 변화 신호로 나타날 수
+                있습니다.
+              </p>
+            </li>
+          </ol>
+
+          <p class="tech-note">
+            개념도 · 색 변화가 나타난다는 개념을 표현한 것이며, 최종 색상과 반응
+            조건은 확정되지 않았습니다. 약물별 판독 기준으로 사용할 수 없습니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 3. Modular Sensor Architecture -->
+      <section class="section tech-module-section" id="architecture">
+        <div class="container">
+          <div class="section-heading split-heading reveal">
+            <div>
+              <p class="eyebrow">MODULAR SENSOR ARCHITECTURE</p>
+              <h2>공통 구조를 유지하고,<br />인식 요소를 바꾸는 모듈형 접근</h2>
+            </div>
+            <p>
+              Detex가 지향하는 플랫폼은 공통 감응 구조를 기반으로 하되, 목표
+              물질에 맞춰 분자 인식 요소를 설계하는 방식입니다. 이를 통해 하나의
+              제품에 머무르지 않고 여러 안전센서 응용 분야로 확장할 수 있는
+              구조를 연구하고 있습니다.
+            </p>
+          </div>
+
+          <div class="module-diagram reveal">
+            <div class="module-inputs">
+              <div class="module-box">
+                <span class="module-tag">공통 감응 기반</span>
+                <strong>PCDA-based responsive platform</strong>
+                <p>모든 구성에서 동일하게 유지되는 감응 구조입니다.</p>
+              </div>
+
+              <div class="module-op" aria-hidden="true">+</div>
+
+              <div class="module-box module-box-swap">
+                <span class="module-tag">목표별 인식 요소</span>
+                <strong>Target-specific recognition element</strong>
+                <p>목표 물질에 맞춰 설계를 변경하는 부분입니다.</p>
+              </div>
+            </div>
+
+            <div class="module-op module-op-down" aria-hidden="true">↓</div>
+
+            <div class="module-box module-box-result">
+              <span class="module-tag">목표 물질별 센서 구성</span>
+              <strong>Sensor configuration for a selected target</strong>
+              <p>
+                공통 감응 기반과 목표별 인식 요소를 결합해 하나의 센서 구성을
+                만듭니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="module-footnotes">
+            <p class="tech-note">
+              개념도 · 실제 구현 방식은 개발 과정에서 달라질 수 있습니다.
+            </p>
+            <p class="module-longterm">
+              <strong>장기 연구 방향</strong>
+              음료 안전에서 식품·환경 분야의 센서 응용 가능성 탐색. 현재는 음료
+              내 약물 검출에 집중하고 있습니다.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4. Conceptual Sensor Layers -->
+      <section class="section tech-layers-section" id="layers">
+        <div class="container">
+          <div class="section-heading reveal">
+            <p class="eyebrow">CONCEPTUAL SENSOR LAYERS</p>
+            <h2>페이퍼 센서의<br />개념적 층 구조</h2>
+            <p class="section-lead">
+              아래 구조는 센서를 이해하기 위한 개념적 층 구분입니다. 실제 제조
+              공정이나 확정된 제품 단면이 아니며, 두께·배합·공정 조건은
+              공개하지 않습니다.
+            </p>
+          </div>
+
+          <ol class="layer-stack reveal">
+            <li class="layer-row">
+              <span class="layer-index" aria-hidden="true">01</span>
+              <div class="layer-body">
+                <h3>시료 접촉 영역</h3>
+                <p class="layer-en">Sample interaction area</p>
+              </div>
+            </li>
+            <li class="layer-row">
+              <span class="layer-index" aria-hidden="true">02</span>
+              <div class="layer-body">
+                <h3>분자 인식층</h3>
+                <p class="layer-en">Molecular recognition layer</p>
+              </div>
+            </li>
+            <li class="layer-row">
+              <span class="layer-index" aria-hidden="true">03</span>
+              <div class="layer-body">
+                <h3>PCDA 기반 감응층</h3>
+                <p class="layer-en">PCDA-based responsive layer</p>
+              </div>
+            </li>
+            <li class="layer-row layer-row-base">
+              <span class="layer-index" aria-hidden="true">04</span>
+              <div class="layer-body">
+                <h3>페이퍼 기재</h3>
+                <p class="layer-en">Paper substrate</p>
+              </div>
+            </li>
+          </ol>
+
+          <p class="tech-note">
+            개념도 · 실제 제품 구조와 제조 공정은 개발 과정에서 달라질 수
+            있습니다.
+          </p>
+        </div>
+      </section>
+
+      <!-- SECTION 5. Development Status -->
+      <section class="section development-section" id="status">
+        <div class="container">
+          <div class="section-heading split-heading reveal">
+            <div>
+              <p class="eyebrow">DEVELOPMENT STATUS</p>
+              <h2>지금 어디까지<br />왔는지</h2>
+            </div>
+            <p>
+              현재 4종을 대상으로 검출 성과가 제시되어 있으며, 총 6종 대응을
+              목표로 개발을 진행하고 있습니다. 개발 중인 대상은 검출 성과가
+              제시된 대상과 구분해 표시합니다.
+            </p>
+          </div>
+
+          <div class="development-board">
+            <article class="development-column complete-column reveal">
+              <div class="development-column-head">
+                <div>
+                  <span class="status-label">DEMONSTRATED</span>
+                  <h3>검출 성과 제시</h3>
+                </div>
+                <strong>4</strong>
+              </div>
+              <ul class="substance-list">
+                <li><span>01</span>GHB</li>
+                <li><span>02</span>Ketamine</li>
+                <li><span>03</span>MDMA</li>
+                <li><span>04</span>Methamphetamine</li>
+              </ul>
+              <p class="development-note">
+                공식 자료상 검출 성과가 제시된 대상입니다. 물질별 성능 수치는
+                제시하지 않습니다.
+              </p>
+            </article>
+
+            <article class="development-column planned-column reveal reveal-delay">
+              <div class="development-column-head">
+                <div>
+                  <span class="status-label">IN DEVELOPMENT</span>
+                  <h3>개발 중</h3>
+                </div>
+                <strong>2</strong>
+              </div>
+              <ul class="substance-list">
+                <li><span>05</span>Alkyl Nitrites</li>
+                <li><span>06</span>Rohypnol / Flunitrazepam</li>
+              </ul>
+              <p class="development-note">
+                검출 성과가 제시된 대상이 아니라 확장 개발 중인 대상입니다.
+              </p>
+            </article>
+          </div>
+
+          <div class="status-summary">
+            <p class="status-summary-main">
+              현재 4종을 대상으로 검출 성과가 제시되어 있으며, 총 6종 대응을
+              목표로 개발을 진행하고 있습니다. 총 6종 대응은 완료된 성과가 아니라
+              개발 목표입니다.
+            </p>
+            <p class="status-summary-stage">
+              <span class="status-dot status-dot-ink" aria-hidden="true"></span>
+              실증용 시제품 · 판매 전
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 6. What the Signal Means -->
+      <section class="section safety-section" id="signal">
+        <div class="container">
+          <div class="section-heading">
+            <p class="eyebrow">WHAT THE SIGNAL MEANS</p>
+            <h2>색 변화 신호의 의미</h2>
+          </div>
+
+          <div class="safety-layout">
+            <article class="safety-primary">
+              <div class="notice-symbol" aria-hidden="true">!</div>
+              <div>
+                <span>필수 안전 안내</span>
+                <h3>
+                  색 변화가 없더라도 음료의 안전을 보장하지 않습니다. 본 제품은
+                  법적·의학적 확정 판정을 대체하지 않습니다.
+                </h3>
+              </div>
+            </article>
+
+            <div class="safety-details">
+              <article class="safety-card">
+                <h3>색 변화는 선별 신호입니다</h3>
+                <p>
+                  색 변화는 특정 물질의 존재 가능성을 확인하기 위한 선별
+                  신호입니다. 색 변화만으로 물질의 종류나 농도를 법적·의학적으로
+                  확정할 수 없습니다.
+                </p>
+              </article>
+              <article class="safety-card">
+                <h3>이 페이지가 다루지 않는 것</h3>
+                <p>
+                  상세 사용 방법과 약물별 판독 기준은 제품 사양 확정 후
+                  안내합니다. 이 페이지에서는 성능 수치를 제시하지 않습니다.
+                </p>
+              </article>
+              <article class="safety-card">
+                <h3>현재 개발 단계</h3>
+                <p>
+                  Detex는 실증용 시제품 단계이며 판매 전입니다. 외부 기관의 검증
+                  결과가 확보되면 별도로 공개합니다.
+                </p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 7. Contact CTA -->
+      <section class="section tech-cta-section" id="collaboration">
+        <div class="container tech-cta-layout">
+          <div class="reveal">
+            <p class="eyebrow">COLLABORATION</p>
+            <h2>기술 실증과<br />연구 협력을 논의합니다</h2>
+            <p class="tech-cta-description">
+              현장 실증, 공동 연구, 센서 응용 분야에 관한 협력을 검토하고
+              있습니다.
+            </p>
+          </div>
+
+          <div class="tech-cta-action reveal reveal-delay">
+            <!--
+              TODO(internal): 공식 문의 채널이 확정되기 전까지 비활성 상태를 유지합니다.
+              - 대표 이메일 사서함 실제 생성 여부 미확인 (Q-P1-06)
+              - 문의 폼 실제 수신 미연결 + 개인정보 처리방침 부재 (F-11)
+              위 두 항목이 해소되면 이 버튼을 실제 문의 링크로 교체합니다.
+              가짜 이메일이나 임시 이메일을 생성하지 않습니다.
+            -->
+            <button class="button button-primary" type="button" disabled>
+              문의 채널 준비 중
+            </button>
+            <p class="tech-cta-note">
+              공식 문의 채널을 준비하고 있습니다. 준비가 완료되면 이 페이지에
+              안내합니다.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-top">
+        <div>
+          <a class="wordmark wordmark-footer" href="index.html">
+            <span class="wordmark-ko">디텍스랩</span>
+            <span class="wordmark-en">Detex Lab</span>
+          </a>
+          <p>더 안전한 세상은 더 나은 기술에서 시작됩니다.</p>
+        </div>
+        <div class="footer-links">
+          <a href="index.html">홈</a>
+          <a href="#principle">기술 원리</a>
+          <a href="#architecture">모듈형 구조</a>
+          <a href="#status">개발 현황</a>
+          <a href="#signal">신호의 의미</a>
+          <a href="technology-en.html">English</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <p>
+          본 페이지는 2026년 7월 기준 실증용 시제품의 기술 개념을 안내합니다.
+          판매 중인 제품이 아닙니다.
+        </p>
+        <p>© <span id="year">2026</span> 디텍스랩(Detex Lab)</p>
+      </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
