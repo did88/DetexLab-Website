@@ -19,7 +19,7 @@ concurrency:
 jobs:
   finalize-and-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 35
     steps:
       - name: Check out branch
         uses: actions/checkout@v4
@@ -49,12 +49,26 @@ jobs:
       - name: Run responsive and functional QA
         run: npm run qa
 
-      - name: Upload QA screenshots and results
+      - name: Run live deployment QA
+        env:
+          DETEX_BASE_URL: https://detexlab.com
+        run: node scripts/qa-live.mjs
+
+      - name: Upload local QA screenshots and results
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: detex-responsive-qa
           path: qa-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Upload live QA screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detex-live-deployment-qa
+          path: live-qa-artifacts/
           if-no-files-found: error
           retention-days: 14
 
@@ -64,7 +78,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/post-finalize-fixes.mjs scripts/qa-site.mjs .github/workflows/finalize-site.yml
+          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/post-finalize-fixes.mjs scripts/qa-site.mjs scripts/qa-live.mjs .github/workflows/finalize-site.yml .github/workflows/live-deployment-qa.yml
           if git diff --cached --quiet; then
             echo "No source changes to commit."
             exit 0
