@@ -1,0 +1,47 @@
+name: Verify live Detex Lab deployment
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: detex-live-deployment-qa
+  cancel-in-progress: true
+
+jobs:
+  live-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install Playwright
+        run: npm install --no-package-lock --ignore-scripts
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Verify deployed website
+        env:
+          DETEX_BASE_URL: https://detexlab.com
+        run: node scripts/qa-live.mjs
+
+      - name: Upload live QA results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detex-live-deployment-qa
+          path: live-qa-artifacts/
+          if-no-files-found: error
+          retention-days: 14
