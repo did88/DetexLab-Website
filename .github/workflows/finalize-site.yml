@@ -34,6 +34,9 @@ jobs:
       - name: Apply deterministic source patch
         run: node scripts/finalize-site.mjs
 
+      - name: Apply mobile navigation hardening
+        run: node scripts/post-finalize-fixes.mjs
+
       - name: Install QA dependency
         run: npm install --no-package-lock --ignore-scripts
 
@@ -58,7 +61,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/qa-site.mjs .github/workflows/finalize-site.yml
+          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/post-finalize-fixes.mjs scripts/qa-site.mjs .github/workflows/finalize-site.yml
           if git diff --cached --quiet; then
             echo "No source changes to commit."
             exit 0
