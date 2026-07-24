@@ -25,4 +25,16 @@
     <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/technology-en.html" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/technology.html" />
   </url>
+  <url>
+    <loc>https://detexlab.com/features.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://detexlab.com/features.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/features-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/features.html" />
+  </url>
+  <url>
+    <loc>https://detexlab.com/features-en.html</loc>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://detexlab.com/features.html" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://detexlab.com/features-en.html" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://detexlab.com/features.html" />
+  </url>
 </urlset>

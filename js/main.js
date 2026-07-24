@@ -227,6 +227,11 @@
         );
       }
 
+      function markVideoUnavailable() {
+        player.classList.add("video-unavailable");
+        toggle.hidden = true;
+      }
+
       if (userPaused) {
         video.pause();
       }
@@ -243,6 +248,17 @@
 
       video.addEventListener("play", syncVideoButton);
       video.addEventListener("pause", syncVideoButton);
+      video.addEventListener("error", markVideoUnavailable);
+      video.querySelectorAll("source").forEach(function (source) {
+        source.addEventListener("error", markVideoUnavailable);
+      });
+
+      if (
+        video.error ||
+        video.networkState === HTMLMediaElement.NETWORK_NO_SOURCE
+      ) {
+        markVideoUnavailable();
+      }
 
       if ("IntersectionObserver" in window && video.hasAttribute("autoplay")) {
         const videoObserver = new IntersectionObserver(
