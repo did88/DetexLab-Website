@@ -38,7 +38,7 @@ jobs:
         run: node scripts/post-finalize-fixes.mjs
 
       - name: Normalize menu transition QA timing
-        run: sed -i 's/await page.waitForTimeout(80);/await page.waitForTimeout(240);/' scripts/qa-site.mjs
+        run: sed -i 's/await page.waitForTimeout(80);/await page.waitForTimeout(500);/' scripts/qa-site.mjs
 
       - name: Install QA dependency
         run: npm install --no-package-lock --ignore-scripts
