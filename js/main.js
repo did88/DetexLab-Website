@@ -1,6 +1,32 @@
 (function () {
   "use strict";
 
+  if (document.body.classList.contains("detex-signal-system")) {
+    const responsiveLayoutHotfix = document.createElement("style");
+    responsiveLayoutHotfix.id = "detex-responsive-layout-hotfix";
+    responsiveLayoutHotfix.textContent = `
+      .detex-signal-system .site-header {
+        right: 0;
+        left: 0;
+        margin-inline: auto;
+        transform: none;
+      }
+
+      @media (max-width: 1040px) {
+        .detex-signal-system .primary-nav {
+          top: 86px;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .detex-signal-system .primary-nav {
+          top: 80px;
+        }
+      }
+    `;
+    document.head.appendChild(responsiveLayoutHotfix);
+  }
+
   const language = document.documentElement.lang === "en" ? "en" : "ko";
   const copy = {
     ko: {
@@ -127,6 +153,11 @@
       ) {
         return;
       }
+      closeMenu(false);
+    });
+
+    closeMenu(false);
+    window.addEventListener("pageshow", function () {
       closeMenu(false);
     });
   }
