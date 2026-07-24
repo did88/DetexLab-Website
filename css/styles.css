@@ -5547,3 +5547,100 @@ textarea:focus-visible {
     height: 36px;
   }
 }
+
+/* 2026-07 responsive header/nav repair */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+.detex-signal-system .site-header {
+  right: max(16px, calc((100vw - 1320px) / 2));
+  left: max(16px, calc((100vw - 1320px) / 2));
+  width: auto;
+  transform: none;
+  overflow: visible;
+}
+
+@media (max-width: 1040px) {
+  .detex-signal-system .site-header,
+  .detex-signal-system .site-header.scrolled {
+    top: 8px;
+    right: 8px;
+    left: 8px;
+    width: auto;
+    color: var(--ink);
+    background: #fff;
+    border-color: rgba(11, 43, 86, 0.14);
+    box-shadow: 0 12px 34px rgba(4, 18, 38, 0.12);
+    transform: none;
+  }
+
+  .detex-signal-system .brand-logo-header-on-dark {
+    display: none !important;
+  }
+
+  .detex-signal-system .brand-logo-header-on-light {
+    display: block !important;
+  }
+
+  .detex-signal-system .primary-nav {
+    position: fixed;
+    top: 86px;
+    right: 8px;
+    bottom: auto;
+    left: 8px;
+    z-index: 120;
+    width: auto;
+    max-height: calc(100dvh - 102px);
+    padding: 14px 22px 24px;
+    overflow-y: auto;
+    color: var(--ink);
+    background: #fff;
+    border: 1px solid rgba(11, 43, 86, 0.14);
+    border-radius: 12px;
+    box-shadow: 0 24px 64px rgba(4, 18, 38, 0.22);
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    transform: translateY(-12px);
+  }
+
+  .detex-signal-system .primary-nav.open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
+}
+
+@media (max-width: 680px) {
+  .detex-signal-system .header-inner {
+    width: calc(100% - 20px);
+    min-height: 64px;
+    gap: 10px;
+  }
+
+  .detex-signal-system .brand-logo-header {
+    height: 27px;
+    max-width: 148px;
+  }
+
+  .detex-signal-system .primary-nav {
+    top: 76px;
+    right: 6px;
+    left: 6px;
+    max-height: calc(100dvh - 88px);
+  }
+
+  .detex-signal-system .hero h1 {
+    font-size: clamp(2.35rem, 11vw, 3.05rem);
+    line-height: 1.12;
+  }
+
+  .content-hero-copy h1,
+  .campaign-copy h1 {
+    font-size: clamp(2.25rem, 10.5vw, 3rem);
+    line-height: 1.12;
+  }
+}
