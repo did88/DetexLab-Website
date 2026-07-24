@@ -128,6 +128,12 @@
       logo.replaceWith(link);
       link.appendChild(logo);
     });
+
+    document.querySelectorAll(".header-inner, .footer-top").forEach(function (container) {
+      Array.from(container.childNodes).forEach(function (node) {
+        if (node.nodeType === Node.TEXT_NODE) node.remove();
+      });
+    });
   }
 
   document.querySelectorAll(".reveal").forEach(function (el) {
