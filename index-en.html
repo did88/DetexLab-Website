@@ -51,18 +51,21 @@
       href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+KR:wght@400;500;600;700&family=Noto+Serif+KR:wght@600;700;800&display=swap"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="css/styles.css" />
+    <link rel="stylesheet" href="css/styles.css?v=20260725-final" />
   </head>
   <body class="detex-signal-system">
     <a class="skip-link" href="#main">Skip to content</a>
 
     <header class="site-header" id="siteHeader">
       <div class="container header-inner">
-        
+        <a class="wordmark" href="index-en.html" aria-label="Detex Lab home">
           <span class="brand-logo-swap" aria-hidden="true">
             <img class="brand-logo brand-logo-header brand-logo-header-on-dark" src="assets/logo-detex-horizontal-light.svg" alt="" width="392" height="84" />
             <img class="brand-logo brand-logo-header brand-logo-header-on-light" src="assets/logo-detex-horizontal.svg" alt="" width="392" height="84" />
-          </span>
+          </span>
+        </a>
+
+        
 
         <nav class="primary-nav" id="primaryNav" aria-label="Primary navigation">
           <a href="#problem">Risks &amp; Data</a>
@@ -97,6 +100,8 @@
         </div>
       </div>
     </header>
+
+    <div class="menu-backdrop" id="menuBackdrop" hidden aria-hidden="true"></div>
 
     <main id="main">
       <section class="hero" id="home">
@@ -792,7 +797,7 @@
             <form class="contact-form reveal reveal-delay" id="contactForm">
               <div class="form-row">
                 <label for="inquiryType">Inquiry type</label>
-                <select id="inquiryType" name="inquiryType">
+                <select id="inquiryType" name="inquiryType" required>
                   <option value="partnership">Collaboration &amp; partnership</option>
                   <option value="sample">Pilot &amp; sample inquiry</option>
                   <option value="product">Product inquiry</option>
@@ -805,7 +810,7 @@
                     id="organization"
                     name="organization"
                     type="text"
-                    placeholder="Enter your organization or company"
+                    placeholder="Enter your organization or company" required
                   />
                 </div>
                 <div class="form-row">
@@ -843,7 +848,8 @@
                 Continue by email
               </button>
               <p class="form-status" id="formStatus" aria-live="polite">
-                Your entries are not stored on a server. Submitting opens your email app.
+                Your entries are not stored on a server. Submitting opens your email app. If it does not open, email
+                <a class="direct-email-link" href="mailto:contact@detexlab.com">contact@detexlab.com</a>.
               </p>
             </form>
           </div>
@@ -854,8 +860,10 @@
     <footer class="site-footer">
       <div class="container footer-top">
         <div>
-          
-            <img class="brand-logo brand-logo-footer" src="assets/logo-detex-footer.svg" alt="" width="392" height="84" />
+          <a href="index-en.html" aria-label="Detex Lab home">
+            <img class="brand-logo brand-logo-footer" src="assets/logo-detex-footer.svg" alt="" width="392" height="84" />
+          </a>
+          
           <p>From unseen risk to a visible signal.</p>
         </div>
         <div class="footer-links">
@@ -882,6 +890,6 @@
       <a href="#contact" data-inquiry="sample">Pilot · Sample</a>
     </div>
 
-    <script src="js/main.js"></script>
+    <script src="js/main.js?v=20260725-final"></script>
   </body>
 </html>

@@ -1,178 +1,113 @@
 (function () {
   "use strict";
 
-  const lang = document.documentElement.lang === "en" ? "en" : "ko";
-  const text = lang === "en"
-    ? { open: "Open menu", close: "Close menu", play: "Play", pause: "Pause" }
-    : { open: "메뉴 열기", close: "메뉴 닫기", play: "재생", pause: "일시정지" };
-
-  if (document.body.classList.contains("detex-signal-system")) {
-    const style = document.createElement("style");
-    style.textContent = `
-      html, body { max-width: 100%; overflow-x: clip; }
-      .detex-signal-system .site-header {
-        top: 14px !important;
-        right: auto !important;
-        left: 50% !important;
-        width: min(calc(100% - 48px), 1760px) !important;
-        max-width: none !important;
-        margin: 0 !important;
-        overflow: visible !important;
-        transform: translateX(-50%) !important;
-      }
-      .detex-signal-system .container,
-      .detex-signal-system .header-inner,
-      .detex-signal-system .hero-layout,
-      .detex-content-page .content-hero-layout,
-      .campaign-template-page .campaign-hero-layout {
-        width: min(calc(100% - 64px), 1640px) !important;
-        margin-inline: auto !important;
-      }
-      .detex-signal-system .hero-copy,
-      .detex-signal-system .hero-visual,
-      .detex-content-page .content-hero-copy,
-      .detex-content-page .content-hero-media,
-      .campaign-template-page .campaign-copy,
-      .campaign-template-page .campaign-hero-media { min-width: 0; }
-      @media (max-width: 1280px) {
-        .detex-signal-system .container,
-        .detex-signal-system .header-inner,
-        .detex-signal-system .hero-layout,
-        .detex-content-page .content-hero-layout,
-        .campaign-template-page .campaign-hero-layout {
-          width: min(calc(100% - 48px), 1180px) !important;
+  const isEnglish = document.documentElement.lang === "en";
+  const copy = isEnglish
+    ? {
+        open: "Open menu",
+        close: "Close menu",
+        play: "Play",
+        pause: "Pause",
+        opening: "Opening your email app. If it does not open, email contact@detexlab.com directly.",
+        typeFallback: "General inquiry",
+        subjectPrefix: "Detex Lab inquiry",
+        fields: {
+          type: "Inquiry type",
+          organization: "Organization / company",
+          name: "Contact name",
+          email: "Reply email",
+          message: "Message"
         }
       }
-      @media (max-width: 1040px) {
-        .detex-signal-system .site-header,
-        .detex-signal-system .site-header.scrolled {
-          top: 8px !important;
-          right: 8px !important;
-          left: 8px !important;
-          width: auto !important;
-          color: var(--ink) !important;
-          background: #fff !important;
-          border-color: rgba(11, 43, 86, .14) !important;
-          box-shadow: 0 12px 34px rgba(4, 18, 38, .12) !important;
-          transform: none !important;
+    : {
+        open: "메뉴 열기",
+        close: "메뉴 닫기",
+        play: "재생",
+        pause: "일시정지",
+        opening: "이메일 앱을 여는 중입니다. 열리지 않으면 contact@detexlab.com으로 직접 보내 주세요.",
+        typeFallback: "일반 문의",
+        subjectPrefix: "Detex Lab 문의",
+        fields: {
+          type: "문의 유형",
+          organization: "기관·회사명",
+          name: "담당자명",
+          email: "회신 이메일",
+          message: "문의 내용"
         }
-        .detex-signal-system .container,
-        .detex-signal-system .header-inner,
-        .detex-signal-system .hero-layout,
-        .detex-content-page .content-hero-layout,
-        .campaign-template-page .campaign-hero-layout {
-          width: min(calc(100% - 32px), 1180px) !important;
-        }
-        .detex-signal-system .brand-logo-header-on-dark { display: none !important; }
-        .detex-signal-system .brand-logo-header-on-light { display: block !important; }
-        .detex-signal-system .primary-nav {
-          position: fixed !important;
-          top: 86px !important;
-          right: 8px !important;
-          bottom: auto !important;
-          left: 8px !important;
-          z-index: 120 !important;
-          width: auto !important;
-          max-height: calc(100dvh - 102px) !important;
-          padding: 14px 22px 24px !important;
-          overflow-y: auto !important;
-          color: var(--ink) !important;
-          background: #fff !important;
-          border: 1px solid rgba(11, 43, 86, .14) !important;
-          border-radius: 12px !important;
-          box-shadow: 0 24px 64px rgba(4, 18, 38, .22) !important;
-          opacity: 0 !important;
-          visibility: hidden !important;
-          pointer-events: none !important;
-          transform: translateY(-12px) !important;
-        }
-        .detex-signal-system .primary-nav.open {
-          opacity: 1 !important;
-          visibility: visible !important;
-          pointer-events: auto !important;
-          transform: translateY(0) !important;
-        }
-      }
-      @media (max-width: 680px) {
-        .detex-signal-system .site-header,
-        .detex-signal-system .site-header.scrolled {
-          top: 6px !important; right: 6px !important; left: 6px !important;
-        }
-        .detex-signal-system .header-inner {
-          width: calc(100% - 20px) !important;
-          min-height: 64px !important;
-          gap: 10px !important;
-        }
-        .detex-signal-system .brand-logo-header {
-          height: 27px !important;
-          max-width: 148px !important;
-        }
-        .detex-signal-system .primary-nav {
-          top: 76px !important;
-          right: 6px !important;
-          left: 6px !important;
-          max-height: calc(100dvh - 88px) !important;
-        }
-      }
-    `;
-    document.head.appendChild(style);
-
-    const home = lang === "en" ? "index-en.html" : "index.html";
-    const label = lang === "en" ? "Detex Lab home" : "Detex Lab 홈";
-    document.querySelectorAll(".brand-logo-swap, .brand-logo-footer").forEach(function (logo) {
-      if (logo.closest("a")) return;
-      const link = document.createElement("a");
-      if (logo.classList.contains("brand-logo-swap")) link.className = "wordmark";
-      link.href = home;
-      link.setAttribute("aria-label", label);
-      logo.replaceWith(link);
-      link.appendChild(logo);
-    });
-
-    document.querySelectorAll(".header-inner, .footer-top").forEach(function (container) {
-      Array.from(container.childNodes).forEach(function (node) {
-        if (node.nodeType === Node.TEXT_NODE) node.remove();
-      });
-    });
-  }
-
-  document.querySelectorAll(".reveal").forEach(function (el) {
-    el.classList.add("is-visible");
-  });
+      };
 
   const header = document.getElementById("siteHeader");
   const toggle = document.getElementById("menuToggle");
   const nav = document.getElementById("primaryNav");
+  const backdrop = document.getElementById("menuBackdrop");
+  let lastMenuTrigger = null;
 
-  function closeMenu() {
+  function setBackdropOpen(open) {
+    if (!backdrop) return;
+    if (open) {
+      backdrop.hidden = false;
+      requestAnimationFrame(function () {
+        backdrop.classList.add("open");
+      });
+      return;
+    }
+    backdrop.classList.remove("open");
+    backdrop.hidden = true;
+  }
+
+  function closeMenu(restoreFocus) {
     if (!toggle || !nav) return;
+    const wasOpen = nav.classList.contains("open");
     toggle.setAttribute("aria-expanded", "false");
-    toggle.setAttribute("aria-label", text.open);
+    toggle.setAttribute("aria-label", copy.open);
     nav.classList.remove("open");
+    nav.setAttribute("aria-hidden", window.matchMedia("(max-width: 1040px)").matches ? "true" : "false");
     document.body.classList.remove("menu-open");
+    setBackdropOpen(false);
+    if (restoreFocus && wasOpen && lastMenuTrigger instanceof HTMLElement) {
+      lastMenuTrigger.focus({ preventScroll: true });
+    }
+  }
+
+  function openMenu() {
+    if (!toggle || !nav) return;
+    lastMenuTrigger = toggle;
+    toggle.setAttribute("aria-expanded", "true");
+    toggle.setAttribute("aria-label", copy.close);
+    nav.classList.add("open");
+    nav.setAttribute("aria-hidden", "false");
+    document.body.classList.add("menu-open");
+    setBackdropOpen(true);
   }
 
   if (toggle && nav) {
     toggle.addEventListener("click", function () {
-      const open = toggle.getAttribute("aria-expanded") === "true";
-      if (open) return closeMenu();
-      toggle.setAttribute("aria-expanded", "true");
-      toggle.setAttribute("aria-label", text.close);
-      nav.classList.add("open");
-      document.body.classList.add("menu-open");
+      if (toggle.getAttribute("aria-expanded") === "true") closeMenu(true);
+      else openMenu();
     });
+
     nav.querySelectorAll("a").forEach(function (link) {
-      link.addEventListener("click", closeMenu);
+      link.addEventListener("click", function () {
+        closeMenu(false);
+      });
     });
+
     document.addEventListener("click", function (event) {
-      if (!nav.classList.contains("open") || nav.contains(event.target) || toggle.contains(event.target)) return;
-      closeMenu();
+      if (!nav.classList.contains("open")) return;
+      if (nav.contains(event.target) || toggle.contains(event.target)) return;
+      closeMenu(false);
     });
+
     document.addEventListener("keydown", function (event) {
-      if (event.key === "Escape") closeMenu();
+      if (event.key === "Escape") closeMenu(true);
     });
-    window.addEventListener("pageshow", closeMenu);
-    closeMenu();
+
+    if (backdrop) backdrop.addEventListener("click", function () { closeMenu(true); });
+    window.addEventListener("pageshow", function () { closeMenu(false); });
+    window.addEventListener("resize", function () {
+      if (!window.matchMedia("(max-width: 1040px)").matches) closeMenu(false);
+    }, { passive: true });
+    closeMenu(false);
   }
 
   function updateHeader() {
@@ -181,21 +116,127 @@
   window.addEventListener("scroll", updateHeader, { passive: true });
   updateHeader();
 
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const revealItems = Array.from(document.querySelectorAll(".reveal"));
+  if (reduceMotion || !("IntersectionObserver" in window)) {
+    revealItems.forEach(function (item) { item.classList.add("is-visible"); });
+  } else {
+    const observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add("is-visible");
+        observer.unobserve(entry.target);
+      });
+    }, { rootMargin: "0px 0px -8%", threshold: 0.08 });
+    revealItems.forEach(function (item) { observer.observe(item); });
+  }
+
   document.querySelectorAll("[data-video-player]").forEach(function (player) {
     const video = player.querySelector("video");
     const button = player.querySelector(".video-toggle");
     if (!video || !button) return;
-    function sync() { button.textContent = video.paused ? text.play : text.pause; }
+
+    function sync() {
+      const paused = video.paused;
+      button.textContent = paused ? copy.play : copy.pause;
+      button.setAttribute("aria-label", paused ? copy.play : copy.pause);
+    }
+
+    function fallback() {
+      player.classList.add("video-failed");
+      button.hidden = true;
+      video.pause();
+    }
+
     button.addEventListener("click", function () {
-      if (video.paused) video.play().catch(sync); else video.pause();
+      if (video.paused) video.play().then(sync).catch(fallback);
+      else video.pause();
     });
     video.addEventListener("play", sync);
     video.addEventListener("pause", sync);
+    video.addEventListener("error", fallback);
+    if (reduceMotion) video.pause();
     sync();
   });
 
   const colorShift = document.getElementById("colorShift");
-  if (colorShift) colorShift.classList.add("is-active");
+  if (colorShift) {
+    colorShift.setAttribute("role", "button");
+    colorShift.setAttribute("tabindex", "0");
+    colorShift.setAttribute("aria-pressed", "true");
+    colorShift.classList.add("is-active");
+    function toggleColorShift() {
+      const active = colorShift.classList.toggle("is-active");
+      colorShift.setAttribute("aria-pressed", String(active));
+    }
+    colorShift.addEventListener("click", toggleColorShift);
+    colorShift.addEventListener("keydown", function (event) {
+      if (event.key !== "Enter" && event.key !== " ") return;
+      event.preventDefault();
+      toggleColorShift();
+    });
+  }
+
+  const inquiryType = document.getElementById("inquiryType");
+  document.querySelectorAll("[data-inquiry]").forEach(function (link) {
+    link.addEventListener("click", function () {
+      if (!inquiryType) return;
+      const requested = link.getAttribute("data-inquiry");
+      if (Array.from(inquiryType.options).some(function (option) { return option.value === requested; })) {
+        inquiryType.value = requested;
+        inquiryType.dispatchEvent(new Event("change", { bubbles: true }));
+      }
+    });
+  });
+
+  const form = document.getElementById("contactForm");
+  const formStatus = document.getElementById("formStatus");
+  if (form) {
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+      if (!form.reportValidity()) return;
+
+      const data = new FormData(form);
+      const typeSelect = form.querySelector("#inquiryType");
+      const selectedType = typeSelect && typeSelect.selectedOptions.length
+        ? typeSelect.selectedOptions[0].textContent.trim()
+        : copy.typeFallback;
+      const organization = String(data.get("organization") || "").trim();
+      const contactName = String(data.get("contactName") || "").trim();
+      const contactEmail = String(data.get("contactEmail") || "").trim();
+      const message = String(data.get("message") || "").trim();
+
+      const subject = "[" + copy.subjectPrefix + "] " + selectedType + " - " + organization;
+      const body = [
+        copy.fields.type + ": " + selectedType,
+        copy.fields.organization + ": " + organization,
+        copy.fields.name + ": " + contactName,
+        copy.fields.email + ": " + contactEmail,
+        "",
+        copy.fields.message + ":",
+        message
+      ].join("\n");
+      const mailto = "mailto:contact@detexlab.com?subject=" + encodeURIComponent(subject) + "&body=" + encodeURIComponent(body);
+      form.dataset.mailto = mailto;
+
+      if (formStatus) {
+        formStatus.innerHTML = "";
+        formStatus.append(document.createTextNode(copy.opening + " "));
+        const directLink = document.createElement("a");
+        directLink.className = "direct-email-link";
+        directLink.href = "mailto:contact@detexlab.com";
+        directLink.textContent = "contact@detexlab.com";
+        formStatus.appendChild(directLink);
+      }
+
+      const mailEvent = new CustomEvent("detex:mailto", {
+        bubbles: true,
+        cancelable: true,
+        detail: { url: mailto, subject: subject, body: body }
+      });
+      if (form.dispatchEvent(mailEvent)) window.location.href = mailto;
+    });
+  }
 
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());

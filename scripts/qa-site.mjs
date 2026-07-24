@@ -195,7 +195,7 @@ try {
         record(pageName, viewport, "Mobile menu opens in viewport", openState.open && openState.visibility === "visible" && openState.pointerEvents === "auto" && inViewport, JSON.stringify(openState));
         record(pageName, viewport, "Mobile menu opaque with backdrop", opaque && openState.backdropOpen && openState.backdropVisibility === "visible" && openState.bodyLocked, JSON.stringify(openState));
         await page.keyboard.press("Escape");
-        await page.waitForTimeout(80);
+        await page.waitForTimeout(500);
         const closedState = await page.evaluate(() => {
           const nav = document.getElementById("primaryNav");
           const backdrop = document.getElementById("menuBackdrop");
