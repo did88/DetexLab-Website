@@ -1,0 +1,64 @@
+name: Finalize Detex Lab site
+
+on:
+  push:
+    branches:
+      - finalize-site-20260725
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: finalize-detex-site
+  cancel-in-progress: false
+
+jobs:
+  finalize-and-qa:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Apply deterministic source patch
+        run: node scripts/finalize-site.mjs
+
+      - name: Install QA dependency
+        run: npm install --no-package-lock --ignore-scripts
+
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+
+      - name: Run responsive and functional QA
+        run: npm run qa
+
+      - name: Upload QA screenshots and results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: detex-responsive-qa
+          path: qa-artifacts/
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Commit finalized source
+        if: success()
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/qa-site.mjs .github/workflows/finalize-site.yml
+          if git diff --cached --quiet; then
+            echo "No source changes to commit."
+            exit 0
+          fi
+          git commit -m "fix: finalize responsive layout and contact workflow"
+          git push origin HEAD:finalize-site-20260725
