@@ -5493,3 +5493,57 @@ textarea:focus-visible {
     gap: 16px;
   }
 }
+
+
+/* Official temporary logo: candidate 08 */
+.wordmark {
+  flex-direction: row;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 4px;
+}
+
+.brand-logo-swap {
+  display: grid;
+  align-items: center;
+}
+
+.brand-logo-swap > .brand-logo {
+  grid-area: 1 / 1;
+}
+
+.brand-logo {
+  display: block;
+  width: auto;
+  max-width: none;
+}
+
+.brand-logo-header {
+  height: 34px;
+}
+
+.brand-logo-header-on-light {
+  display: none;
+}
+
+.site-header.scrolled .brand-logo-header-on-dark {
+  display: none;
+}
+
+.site-header.scrolled .brand-logo-header-on-light {
+  display: block;
+}
+
+.brand-logo-footer {
+  height: 42px;
+}
+
+@media (max-width: 720px) {
+  .brand-logo-header {
+    height: 28px;
+  }
+
+  .brand-logo-footer {
+    height: 36px;
+  }
+}
