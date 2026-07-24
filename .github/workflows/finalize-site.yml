@@ -4,13 +4,16 @@ on:
   push:
     branches:
       - finalize-site-20260725
+  pull_request:
+    branches:
+      - main
   workflow_dispatch:
 
 permissions:
   contents: write
 
 concurrency:
-  group: finalize-detex-site
+  group: finalize-detex-site-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -50,7 +53,7 @@ jobs:
           retention-days: 14
 
       - name: Commit finalized source
-        if: success()
+        if: success() && github.event_name != 'pull_request'
         shell: bash
         run: |
           git config user.name "github-actions[bot]"
