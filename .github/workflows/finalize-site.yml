@@ -3,6 +3,7 @@ name: Finalize Detex Lab site
 on:
   push:
     branches:
+      - main
       - finalize-site-20260725
   pull_request:
     branches:
@@ -34,7 +35,7 @@ jobs:
       - name: Apply deterministic source patch
         run: node scripts/finalize-site.mjs
 
-      - name: Apply mobile navigation hardening
+      - name: Apply mobile navigation and logo hardening
         run: node scripts/post-finalize-fixes.mjs
 
       - name: Normalize menu transition QA timing
@@ -78,10 +79,10 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/post-finalize-fixes.mjs scripts/qa-site.mjs scripts/qa-live.mjs .github/workflows/finalize-site.yml .github/workflows/live-deployment-qa.yml
+          git add -- '*.html' css/styles.css js/main.js package.json .gitignore scripts/finalize-site.mjs scripts/post-finalize-fixes.mjs scripts/qa-site.mjs scripts/qa-mobile-logo.mjs scripts/qa-live.mjs .github/workflows/finalize-site.yml .github/workflows/live-deployment-qa.yml
           if git diff --cached --quiet; then
             echo "No source changes to commit."
             exit 0
           fi
-          git commit -m "fix: finalize responsive layout and contact workflow"
-          git push origin HEAD:finalize-site-20260725
+          git commit -m "fix: finalize responsive layout and mobile logo visibility"
+          git push origin "HEAD:${GITHUB_REF_NAME}"

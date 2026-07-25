@@ -16,7 +16,7 @@ concurrency:
 jobs:
   live-qa:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - name: Check out main
         uses: actions/checkout@v4
@@ -36,6 +36,11 @@ jobs:
         env:
           DETEX_BASE_URL: https://detexlab.com
         run: node scripts/qa-live.mjs
+
+      - name: Verify mobile logo visibility
+        env:
+          DETEX_BASE_URL: https://detexlab.com
+        run: node scripts/qa-mobile-logo.mjs
 
       - name: Upload live QA results
         if: always()
