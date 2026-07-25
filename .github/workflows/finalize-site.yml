@@ -55,6 +55,11 @@ jobs:
           DETEX_BASE_URL: https://detexlab.com
         run: node scripts/qa-live.mjs
 
+      - name: Verify live mobile logo visibility
+        env:
+          DETEX_BASE_URL: https://detexlab.com
+        run: node scripts/qa-mobile-logo.mjs
+
       - name: Upload local QA screenshots and results
         if: always()
         uses: actions/upload-artifact@v4
