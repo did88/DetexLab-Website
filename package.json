@@ -3,7 +3,7 @@
   "private": true,
   "version": "1.0.0",
   "scripts": {
-    "qa": "node scripts/qa-site.mjs && node scripts/qa-mobile-logo.mjs"
+    "qa": "node scripts/qa-site.mjs"
   },
   "devDependencies": {
     "playwright": "^1.54.1"

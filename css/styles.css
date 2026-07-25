@@ -5887,6 +5887,16 @@ body {
 
 /* === Mobile nav hardening: 2026-07-25 === */
 @media (max-width: 1040px) {
+  .detex-signal-system .brand-logo-header-on-dark {
+    display: none !important;
+    opacity: 0 !important;
+  }
+
+  .detex-signal-system .brand-logo-header-on-light {
+    display: block !important;
+    opacity: 1 !important;
+  }
+
   .detex-signal-system .primary-nav {
     opacity: 0 !important;
     visibility: hidden !important;
