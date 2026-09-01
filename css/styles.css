@@ -4039,9 +4039,36 @@ textarea:focus-visible {
   box-shadow: none;
 }
 
+.detex-signal-system .principle-block .principle-copy .eyebrow {
+  color: var(--navy-700);
+}
+
+.detex-signal-system .principle-copy > p:not(.eyebrow):not(.spec-notice) {
+  color: var(--ink-soft);
+}
+
+.detex-signal-system .principle-copy .spec-notice {
+  color: var(--navy-700);
+  background: rgba(40, 110, 168, 0.08);
+  border-left-color: var(--signal-blue-deep);
+}
+
 .detex-signal-system .color-shift {
   background: #fff;
   border-radius: 6px;
+}
+
+.detex-signal-system .principle-block .color-state small,
+.detex-signal-system .principle-block .color-shift > p {
+  color: var(--ink-soft);
+}
+
+.detex-signal-system .principle-block .color-arrow {
+  background: rgba(16, 34, 57, 0.28);
+}
+
+.detex-signal-system .principle-block .color-arrow::after {
+  border-color: var(--ink-soft);
 }
 
 .detex-signal-system .color-swatch {
@@ -5495,7 +5522,7 @@ textarea:focus-visible {
 }
 
 
-/* Official temporary logo: candidate 08 */
+/* Representative-approved Detex Lab logo */
 .wordmark {
   flex-direction: row;
   align-items: center;
