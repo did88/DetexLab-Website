@@ -1,6 +1,159 @@
 (function () {
   "use strict";
 
+  if (document.body.classList.contains("detex-signal-system")) {
+    const responsiveLayoutHotfix = document.createElement("style");
+    responsiveLayoutHotfix.id = "detex-responsive-layout-hotfix-v2";
+    responsiveLayoutHotfix.textContent = `
+      html,
+      body {
+        max-width: 100%;
+        overflow-x: clip;
+      }
+
+      .detex-signal-system .site-header {
+        top: 14px !important;
+        right: auto !important;
+        left: 50% !important;
+        width: min(calc(100% - 48px), 1760px) !important;
+        max-width: none !important;
+        margin: 0 !important;
+        overflow: visible !important;
+        transform: translateX(-50%) !important;
+      }
+
+      .detex-signal-system .header-inner,
+      .detex-signal-system .hero-layout,
+      .detex-content-page .content-hero-layout,
+      .campaign-template-page .campaign-hero-layout {
+        width: min(calc(100% - 64px), 1640px) !important;
+        margin-inline: auto !important;
+      }
+
+      .detex-signal-system .hero-copy,
+      .detex-signal-system .hero-visual,
+      .detex-content-page .content-hero-copy,
+      .detex-content-page .content-hero-media,
+      .campaign-template-page .campaign-copy,
+      .campaign-template-page .campaign-hero-media {
+        min-width: 0;
+      }
+
+      @media (max-width: 1040px) {
+        .detex-signal-system .site-header,
+        .detex-signal-system .site-header.scrolled {
+          top: 8px !important;
+          right: 8px !important;
+          left: 8px !important;
+          width: auto !important;
+          color: var(--ink) !important;
+          background: #fff !important;
+          border-color: rgba(11, 43, 86, 0.14) !important;
+          box-shadow: 0 12px 34px rgba(4, 18, 38, 0.12) !important;
+          transform: none !important;
+        }
+
+        .detex-signal-system .header-inner {
+          width: min(calc(100% - 24px), 1180px) !important;
+        }
+
+        .detex-signal-system .brand-logo-header-on-dark {
+          display: none !important;
+        }
+
+        .detex-signal-system .brand-logo-header-on-light {
+          display: block !important;
+        }
+
+        .detex-signal-system .primary-nav {
+          position: fixed !important;
+          top: 86px !important;
+          right: 8px !important;
+          bottom: auto !important;
+          left: 8px !important;
+          z-index: 120 !important;
+          width: auto !important;
+          max-height: calc(100dvh - 102px) !important;
+          padding: 14px 22px 24px !important;
+          overflow-y: auto !important;
+          color: var(--ink) !important;
+          background: #fff !important;
+          border: 1px solid rgba(11, 43, 86, 0.14) !important;
+          border-radius: 12px !important;
+          box-shadow: 0 24px 64px rgba(4, 18, 38, 0.22) !important;
+          opacity: 0 !important;
+          visibility: hidden !important;
+          pointer-events: none !important;
+          transform: translateY(-12px) !important;
+        }
+
+        .detex-signal-system .primary-nav.open {
+          opacity: 1 !important;
+          visibility: visible !important;
+          pointer-events: auto !important;
+          transform: translateY(0) !important;
+        }
+      }
+
+      @media (max-width: 680px) {
+        .detex-signal-system .site-header,
+        .detex-signal-system .site-header.scrolled {
+          top: 6px !important;
+          right: 6px !important;
+          left: 6px !important;
+        }
+
+        .detex-signal-system .header-inner {
+          width: calc(100% - 20px) !important;
+          min-height: 64px !important;
+          gap: 10px !important;
+        }
+
+        .detex-signal-system .brand-logo-header {
+          height: 27px !important;
+          max-width: 148px !important;
+        }
+
+        .detex-signal-system .primary-nav {
+          top: 76px !important;
+          right: 6px !important;
+          left: 6px !important;
+          max-height: calc(100dvh - 88px) !important;
+        }
+      }
+    `;
+    document.head.appendChild(responsiveLayoutHotfix);
+
+    const homeHref = document.documentElement.lang === "en" ? "index-en.html" : "index.html";
+    const brandLabel = document.documentElement.lang === "en" ? "Detex Lab home" : "Detex Lab 홈";
+
+    document.querySelectorAll(".brand-logo-swap").forEach(function (logoSwap) {
+      if (logoSwap.closest("a")) return;
+      const brandLink = document.createElement("a");
+      brandLink.className = "wordmark";
+      brandLink.href = homeHref;
+      brandLink.setAttribute("aria-label", brandLabel);
+      logoSwap.replaceWith(brandLink);
+      brandLink.appendChild(logoSwap);
+    });
+
+    document.querySelectorAll(".brand-logo-footer").forEach(function (footerLogo) {
+      if (footerLogo.closest("a")) return;
+      const brandLink = document.createElement("a");
+      brandLink.href = homeHref;
+      brandLink.setAttribute("aria-label", brandLabel);
+      footerLogo.replaceWith(brandLink);
+      brandLink.appendChild(footerLogo);
+    });
+
+    document.querySelectorAll(".header-inner, .footer-top").forEach(function (container) {
+      Array.from(container.childNodes).forEach(function (node) {
+        if (node.nodeType !== Node.TEXT_NODE) return;
+        if (/^[\s\u0001\u0003]*$/.test(node.textContent || "")) node.remove();
+      });
+    });
+  }
+
   const language = document.documentElement.lang === "en" ? "en" : "ko";
   const copy = {
     ko: {
@@ -127,6 +280,11 @@
       ) {
         return;
       }
+      closeMenu(false);
+    });
+
+    closeMenu(false);
+    window.addEventListener("pageshow", function () {
       closeMenu(false);
     });
   }
