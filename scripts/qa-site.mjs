@@ -122,7 +122,7 @@ try {
       });
       page.on("pageerror", (error) => pageErrors.push(String(error)));
 
-      const response = await page.goto(`${baseUrl}/${pageName}`, { waitUntil: "domcontentloaded" });
+      const response = await page.goto(`${baseUrl}/${pageName}`, { waitUntil: "load" });
       await page.waitForTimeout(250);
       record(pageName, viewport, "HTTP 200", response?.status() === 200, `status=${response?.status()}`);
 
@@ -182,7 +182,12 @@ try {
 
       if (viewport.width <= 1040) {
         await page.locator("#menuToggle").click();
-        await page.waitForTimeout(220);
+        await page.waitForFunction(() => {
+          const nav = document.getElementById("primaryNav");
+          const backdrop = document.getElementById("menuBackdrop");
+          return nav?.classList.contains("open") && backdrop?.classList.contains("open");
+        }, null, { timeout: 2000 }).catch(() => {});
+        await page.waitForTimeout(500);
         const openState = await page.evaluate(() => {
           const nav = document.getElementById("primaryNav");
           const backdrop = document.getElementById("menuBackdrop");
