@@ -238,6 +238,29 @@
     });
   }
 
+  // Keep the fixed bilingual screening notice aligned with the actual rendered height.
+  const noticeBar = document.getElementById("testNoticeBar");
+  if (noticeBar) {
+    const syncNoticeBarHeight = () => {
+      const height = Math.round(noticeBar.getBoundingClientRect().height);
+      if (height > 0) {
+        document.documentElement.style.setProperty(
+          "--notice-bar-height",
+          String(height) + "px",
+        );
+      }
+    };
+
+    syncNoticeBarHeight();
+    window.addEventListener("load", syncNoticeBarHeight);
+
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(syncNoticeBarHeight).observe(noticeBar);
+    } else {
+      window.addEventListener("resize", syncNoticeBarHeight);
+    }
+  }
+
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
 })();
