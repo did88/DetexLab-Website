@@ -55,6 +55,39 @@
   <body class="detex-signal-system detex-technology-page">
     <a class="skip-link" href="#main">본문으로 바로가기</a>
 
+
+    <!-- 필수 안전 고지 배너 (상단 고정, 한/영 병기).
+         문구는 docs/CONTENT_GUARDRAILS.md 승인 표현. 임의 삭제·완화 금지. -->
+    <div
+      class="test-notice-bar"
+      id="testNoticeBar"
+      role="note"
+      aria-label="중요 검사 안내"
+    >
+      <div class="test-notice-inner">
+        <span class="test-notice-mark" aria-hidden="true">!</span>
+        <div class="test-notice-copy">
+          <p class="test-notice-title">
+            <span lang="ko">중요 안내</span>
+            <span class="test-notice-sep" aria-hidden="true">·</span>
+            <span lang="en">Important Test Information</span>
+          </p>
+          <p class="test-notice-text" lang="ko">
+            본 제품은 음료 속 대상 물질의 존재 가능성을 확인하는 선별 보조
+            도구이며, 위양성 또는 위음성 결과가 나타날 수 있습니다. 검사 결과는
+            선별 목적으로만 사용되며, 확정적·법적·법과학적 증거로 사용할 수
+            없습니다.
+          </p>
+          <p class="test-notice-text" lang="en">
+            This product is a screening aid that checks for the possible presence
+            of target substances in beverages, and false-positive or
+            false-negative results may occur. Results are for screening only and
+            are not intended as definitive, legal, or forensic evidence.
+          </p>
+        </div>
+      </div>
+    </div>
+
     <header class="site-header" id="siteHeader">
       <div class="container header-inner">
         <a class="wordmark" href="index.html" aria-label="Detex Lab 홈">
