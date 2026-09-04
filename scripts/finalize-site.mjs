@@ -246,6 +246,29 @@ const mainJs = String.raw`(function () {
     });
   }
 
+  // Keep the fixed bilingual screening notice aligned with the actual rendered height.
+  const noticeBar = document.getElementById("testNoticeBar");
+  if (noticeBar) {
+    const syncNoticeBarHeight = () => {
+      const height = Math.round(noticeBar.getBoundingClientRect().height);
+      if (height > 0) {
+        document.documentElement.style.setProperty(
+          "--notice-bar-height",
+          String(height) + "px",
+        );
+      }
+    };
+
+    syncNoticeBarHeight();
+    window.addEventListener("load", syncNoticeBarHeight);
+
+    if (typeof ResizeObserver === "function") {
+      new ResizeObserver(syncNoticeBarHeight).observe(noticeBar);
+    } else {
+      window.addEventListener("resize", syncNoticeBarHeight);
+    }
+  }
+
   const year = document.getElementById("year");
   if (year) year.textContent = String(new Date().getFullYear());
 })();
@@ -590,6 +613,176 @@ body {
 }
 `;
 
+const noticeCss = String.raw`
+/* ============================================================
+   필수 안전 고지 배너 (Required test notice bar)
+   페이지 최상단에 고정되는 한/영 병기 안내 바.
+   문구는 docs/CONTENT_GUARDRAILS.md 승인 표현이므로 임의 삭제·완화 금지.
+   실제 높이는 js/main.js가 --notice-bar-height 에 반영한다.
+   ============================================================ */
+
+:root {
+  --notice-bar-height: 92px;
+}
+
+.test-notice-bar {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  z-index: 200;
+  color: rgba(244, 240, 231, 0.94);
+  background: var(--navy-950);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+  font-family: var(--font-body);
+}
+
+.test-notice-inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  width: min(100% - 32px, 1320px);
+  max-height: 42vh;
+  margin-inline: auto;
+  padding: 10px 0 11px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+.test-notice-mark {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  color: var(--navy-950);
+  background: var(--signal-rose, #e978a1);
+  border-radius: 50%;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.test-notice-copy {
+  min-width: 0;
+}
+
+.test-notice-title {
+  margin: 0 0 3px;
+  color: #ffffff;
+  font-family: "IBM Plex Sans", var(--font-body);
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 1.4;
+  letter-spacing: 0.08em;
+}
+
+.test-notice-sep {
+  margin: 0 6px;
+  opacity: 0.45;
+}
+
+.test-notice-text {
+  margin: 0;
+  font-size: 12.5px;
+  line-height: 1.5;
+  word-break: keep-all;
+  overflow-wrap: break-word;
+}
+
+.test-notice-text + .test-notice-text {
+  margin-top: 3px;
+  color: rgba(244, 240, 231, 0.68);
+}
+
+body {
+  padding-top: var(--notice-bar-height);
+}
+
+.skip-link:focus {
+  top: calc(var(--notice-bar-height) + 10px);
+}
+
+.site-header {
+  top: var(--notice-bar-height);
+}
+
+.detex-signal-system .site-header {
+  top: calc(var(--notice-bar-height) + 14px);
+}
+
+html {
+  scroll-padding-top: calc(var(--notice-bar-height) + 92px);
+}
+
+@media (max-width: 1040px) {
+  .detex-signal-system .site-header,
+  .detex-signal-system .site-header.scrolled {
+    top: calc(var(--notice-bar-height) + 8px);
+  }
+}
+
+@media (max-width: 900px) {
+  :root {
+    --notice-bar-height: 150px;
+  }
+
+  html {
+    scroll-padding-top: calc(var(--notice-bar-height) + 78px);
+  }
+}
+
+@media (max-width: 680px) {
+  :root {
+    --notice-bar-height: 186px;
+  }
+
+  .test-notice-inner {
+    gap: 10px;
+    padding: 9px 0 10px;
+  }
+
+  .test-notice-mark {
+    width: 18px;
+    height: 18px;
+    font-size: 12px;
+  }
+
+  .test-notice-title {
+    font-size: 11px;
+  }
+
+  .test-notice-text {
+    font-size: 11.5px;
+    line-height: 1.45;
+  }
+
+  .detex-signal-system .site-header,
+  .detex-signal-system .site-header.scrolled {
+    top: calc(var(--notice-bar-height) + 6px);
+  }
+
+  html {
+    scroll-padding-top: calc(var(--notice-bar-height) + 70px);
+  }
+}
+
+@media print {
+  .test-notice-bar {
+    position: static;
+    color: #000000;
+    background: transparent;
+    border-bottom: 1px solid #000000;
+  }
+
+  body {
+    padding-top: 0;
+  }
+}
+`;
+
 function read(file) {
   return fs.readFileSync(path.join(root, file), "utf8");
 }
@@ -619,6 +812,9 @@ function makeRequired(html, selectorId) {
 function patchHtml(filename) {
   let html = read(filename);
   const english = /<html\b[^>]*\blang=["']en["']/i.test(html);
+  if (!/id=["']testNoticeBar["']/.test(html)) {
+    throw new Error(`${filename}: required bilingual test notice banner missing`);
+  }
   const home = english ? "index-en.html" : "index.html";
   const homeLabel = english ? "Detex Lab home" : "Detex Lab 홈";
   const statusCopy = english
@@ -677,7 +873,7 @@ write("js/main.js", mainJs);
 
 let css = read("css/styles.css");
 css = css.replace(/\/\* === Responsive source integration: 2026-07-25 === \*\/[\s\S]*$/m, "").trimEnd();
-write("css/styles.css", `${css}\n\n${responsiveCss.trim()}\n`);
+write("css/styles.css", `${css}\n\n${responsiveCss.trim()}\n\n${noticeCss.trim()}\n`);
 
 const packageJson = {
   name: "detexlab-website",

@@ -129,6 +129,8 @@ try {
       const state = await page.evaluate(() => {
         const header = document.getElementById("siteHeader");
         const headerRect = header?.getBoundingClientRect();
+        const notice = document.getElementById("testNoticeBar");
+        const noticeRect = notice?.getBoundingClientRect();
         const wordmark = document.querySelector(".wordmark");
         const wordmarkRect = wordmark?.getBoundingClientRect();
         const logoImages = Array.from(document.querySelectorAll(".brand-logo"));
@@ -140,7 +142,12 @@ try {
         return {
           scrollWidth: Math.max(document.documentElement.scrollWidth, document.body.scrollWidth),
           innerWidth: window.innerWidth,
-          headerRect: headerRect ? { left: headerRect.left, right: headerRect.right, width: headerRect.width } : null,
+          headerRect: headerRect ? { left: headerRect.left, right: headerRect.right, top: headerRect.top, width: headerRect.width } : null,
+          noticeCount: document.querySelectorAll("#testNoticeBar").length,
+          noticeRect: noticeRect ? { top: noticeRect.top, bottom: noticeRect.bottom, height: noticeRect.height } : null,
+          noticeText: notice?.textContent || "",
+          noticeHeightVar: Number.parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--notice-bar-height")),
+          bodyPaddingTop: Number.parseFloat(getComputedStyle(document.body).paddingTop),
           wordmarkRect: wordmarkRect ? { width: wordmarkRect.width, height: wordmarkRect.height } : null,
           wordmarkLabel: wordmark?.getAttribute("aria-label") || "",
           controlChars: /[\u0001\u0003]/.test(document.body.textContent || ""),
@@ -158,6 +165,9 @@ try {
 
       record(pageName, viewport, "No horizontal overflow", state.scrollWidth <= state.innerWidth + 1, `scrollWidth=${state.scrollWidth}, innerWidth=${state.innerWidth}`);
       record(pageName, viewport, "Header inside viewport", Boolean(state.headerRect) && state.headerRect.left >= -1 && state.headerRect.right <= state.innerWidth + 1, JSON.stringify(state.headerRect));
+      record(pageName, viewport, "Required bilingual notice present", state.noticeCount === 1 && state.noticeText.includes("Important Test Information") && state.noticeText.includes("중요 안내") && state.noticeText.includes("false-positive") && state.noticeText.includes("위양성"), JSON.stringify({ count: state.noticeCount, textLength: state.noticeText.length }));
+      record(pageName, viewport, "Notice layout clears header", Boolean(state.noticeRect) && Math.abs(state.noticeRect.top) <= 1 && Boolean(state.headerRect) && state.headerRect.top >= state.noticeRect.bottom + 4, JSON.stringify({ notice: state.noticeRect, header: state.headerRect }));
+      record(pageName, viewport, "Notice height synchronized", Boolean(state.noticeRect) && Math.abs(state.noticeHeightVar - state.noticeRect.height) <= 1.5 && state.bodyPaddingTop >= state.noticeRect.height - 1.5, JSON.stringify({ notice: state.noticeRect, cssVar: state.noticeHeightVar, bodyPaddingTop: state.bodyPaddingTop }));
       record(pageName, viewport, "Logo text/wordmark visible", Boolean(state.wordmarkRect) && state.wordmarkRect.width >= 120 && state.wordmarkRect.height > 20 && state.wordmarkLabel.includes("Detex Lab"), JSON.stringify({ rect: state.wordmarkRect, label: state.wordmarkLabel }));
       record(pageName, viewport, "Logo assets loaded", state.logoImages.length >= 3 && state.logoImages.every((image) => image.complete && image.naturalWidth > 0), JSON.stringify(state.logoImages));
       record(pageName, viewport, "No U+0001/U+0003", !state.controlChars);
