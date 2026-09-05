@@ -23,6 +23,7 @@ jobs:
         shell: python
         run: |
           from pathlib import Path
+          import re
 
           ko_pages = [
               "index.html",
@@ -37,56 +38,75 @@ jobs:
               "campaign-template-en.html",
           ]
 
-          ko_title_old = '''          <p class="test-notice-title">
-            <span lang="ko">중요 안내</span>
-            <span class="test-notice-sep" aria-hidden="true">·</span>
-            <span lang="en">Important Test Information</span>
-          </p>'''
-          ko_title_new = '''          <p class="test-notice-title">
-            <span lang="ko">중요 안내</span>
-          </p>'''
-          en_title_old = '''          <p class="test-notice-title">
-            <span lang="en">Important Test Information</span>
-            <span class="test-notice-sep" aria-hidden="true">·</span>
-            <span lang="ko">중요 안내</span>
-          </p>'''
-          en_title_new = '''          <p class="test-notice-title">
-            <span lang="en">Important Test Information</span>
-          </p>'''
+          ko_title = re.compile(
+              r'<p class="test-notice-title">\s*'
+              r'<span lang="ko">중요 안내</span>\s*'
+              r'<span class="test-notice-sep" aria-hidden="true">·</span>\s*'
+              r'<span lang="en">Important Test Information</span>\s*'
+              r'</p>',
+              re.S,
+          )
+          en_title = re.compile(
+              r'<p class="test-notice-title">\s*'
+              r'<span lang="en">Important Test Information</span>\s*'
+              r'<span class="test-notice-sep" aria-hidden="true">·</span>\s*'
+              r'<span lang="ko">중요 안내</span>\s*'
+              r'</p>',
+              re.S,
+          )
+          ko_body = re.compile(
+              r'\s*<p class="test-notice-text" lang="ko">\s*'
+              r'본 제품은 음료 속 대상 물질의 존재 가능성을 확인하는 선별 보조\s*'
+              r'도구이며, 위양성 또는 위음성 결과가 나타날 수 있습니다\. 검사 결과는\s*'
+              r'선별 목적으로만 사용되며, 확정적·법적·법과학적 증거로 사용할 수\s*'
+              r'없습니다\.\s*</p>',
+              re.S,
+          )
+          en_body = re.compile(
+              r'\s*<p class="test-notice-text" lang="en">\s*'
+              r'This product is a screening aid that checks for the possible presence\s*'
+              r'of target substances in beverages, and false-positive or\s*'
+              r'false-negative results may occur\. Results are for screening only and\s*'
+              r'are not intended as definitive, legal, or forensic evidence\.\s*</p>',
+              re.S,
+          )
 
-          ko_text = '''          <p class="test-notice-text" lang="ko">
-            본 제품은 음료 속 대상 물질의 존재 가능성을 확인하는 선별 보조
-            도구이며, 위양성 또는 위음성 결과가 나타날 수 있습니다. 검사 결과는
-            선별 목적으로만 사용되며, 확정적·법적·법과학적 증거로 사용할 수
-            없습니다.
-          </p>'''
-          en_text = '''          <p class="test-notice-text" lang="en">
-            This product is a screening aid that checks for the possible presence
-            of target substances in beverages, and false-positive or
-            false-negative results may occur. Results are for screening only and
-            are not intended as definitive, legal, or forensic evidence.
-          </p>'''
-
-          def replace_once(text, old, new, label):
-              count = text.count(old)
+          def sub_once(pattern, replacement, text, label):
+              updated, count = pattern.subn(replacement, text, count=1)
               if count != 1:
                   raise RuntimeError(f"{label}: expected 1 match, found {count}")
-              return text.replace(old, new, 1)
+              return updated
 
           for page in ko_pages:
               path = Path(page)
               text = path.read_text(encoding="utf-8")
-              text = replace_once(text, ko_title_old, ko_title_new, f"{page} Korean title")
-              text = replace_once(text, en_text, "", f"{page} remove English body")
-              text = text.replace("상단 고정, 한/영 병기", "상단 고정, 페이지 언어에 맞춰 단일 언어 표기")
+              text = sub_once(
+                  ko_title,
+                  '<p class="test-notice-title">\n            <span lang="ko">중요 안내</span>\n          </p>',
+                  text,
+                  f"{page} Korean title",
+              )
+              text = sub_once(en_body, "", text, f"{page} remove English body")
+              text = text.replace(
+                  "상단 고정, 한/영 병기",
+                  "상단 고정, 페이지 언어에 맞춰 단일 언어 표기",
+              )
               path.write_text(text, encoding="utf-8")
 
           for page in en_pages:
               path = Path(page)
               text = path.read_text(encoding="utf-8")
-              text = replace_once(text, en_title_old, en_title_new, f"{page} English title")
-              text = replace_once(text, ko_text, "", f"{page} remove Korean body")
-              text = text.replace("상단 고정, 한/영 병기", "상단 고정, 페이지 언어에 맞춰 단일 언어 표기")
+              text = sub_once(
+                  en_title,
+                  '<p class="test-notice-title">\n            <span lang="en">Important Test Information</span>\n          </p>',
+                  text,
+                  f"{page} English title",
+              )
+              text = sub_once(ko_body, "", text, f"{page} remove Korean body")
+              text = text.replace(
+                  "상단 고정, 한/영 병기",
+                  "상단 고정, 페이지 언어에 맞춰 단일 언어 표기",
+              )
               path.write_text(text, encoding="utf-8")
 
           for script_name, old_label, new_label in [
