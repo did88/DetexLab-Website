@@ -1,0 +1,155 @@
+name: One-time localize screening notice
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+
+jobs:
+  localize-notice:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Split notice language by page locale
+        shell: python
+        run: |
+          from pathlib import Path
+
+          ko_pages = [
+              "index.html",
+              "technology.html",
+              "features.html",
+              "campaign-template.html",
+          ]
+          en_pages = [
+              "index-en.html",
+              "technology-en.html",
+              "features-en.html",
+              "campaign-template-en.html",
+          ]
+
+          ko_title_old = '''          <p class="test-notice-title">
+            <span lang="ko">중요 안내</span>
+            <span class="test-notice-sep" aria-hidden="true">·</span>
+            <span lang="en">Important Test Information</span>
+          </p>'''
+          ko_title_new = '''          <p class="test-notice-title">
+            <span lang="ko">중요 안내</span>
+          </p>'''
+          en_title_old = '''          <p class="test-notice-title">
+            <span lang="en">Important Test Information</span>
+            <span class="test-notice-sep" aria-hidden="true">·</span>
+            <span lang="ko">중요 안내</span>
+          </p>'''
+          en_title_new = '''          <p class="test-notice-title">
+            <span lang="en">Important Test Information</span>
+          </p>'''
+
+          ko_text = '''          <p class="test-notice-text" lang="ko">
+            본 제품은 음료 속 대상 물질의 존재 가능성을 확인하는 선별 보조
+            도구이며, 위양성 또는 위음성 결과가 나타날 수 있습니다. 검사 결과는
+            선별 목적으로만 사용되며, 확정적·법적·법과학적 증거로 사용할 수
+            없습니다.
+          </p>'''
+          en_text = '''          <p class="test-notice-text" lang="en">
+            This product is a screening aid that checks for the possible presence
+            of target substances in beverages, and false-positive or
+            false-negative results may occur. Results are for screening only and
+            are not intended as definitive, legal, or forensic evidence.
+          </p>'''
+
+          def replace_once(text, old, new, label):
+              count = text.count(old)
+              if count != 1:
+                  raise RuntimeError(f"{label}: expected 1 match, found {count}")
+              return text.replace(old, new, 1)
+
+          for page in ko_pages:
+              path = Path(page)
+              text = path.read_text(encoding="utf-8")
+              text = replace_once(text, ko_title_old, ko_title_new, f"{page} Korean title")
+              text = replace_once(text, en_text, "", f"{page} remove English body")
+              text = text.replace("상단 고정, 한/영 병기", "상단 고정, 페이지 언어에 맞춰 단일 언어 표기")
+              path.write_text(text, encoding="utf-8")
+
+          for page in en_pages:
+              path = Path(page)
+              text = path.read_text(encoding="utf-8")
+              text = replace_once(text, en_title_old, en_title_new, f"{page} English title")
+              text = replace_once(text, ko_text, "", f"{page} remove Korean body")
+              text = text.replace("상단 고정, 한/영 병기", "상단 고정, 페이지 언어에 맞춰 단일 언어 표기")
+              path.write_text(text, encoding="utf-8")
+
+          for script_name, old_label, new_label in [
+              ("scripts/qa-site.mjs", "Required bilingual notice present", "Required page-language notice present"),
+              ("scripts/qa-live.mjs", "Required bilingual notice deployed", "Required page-language notice deployed"),
+          ]:
+              path = Path(script_name)
+              text = path.read_text(encoding="utf-8")
+              old_line = next((line for line in text.splitlines() if old_label in line), None)
+              if old_line is None:
+                  raise RuntimeError(f"{script_name}: bilingual QA assertion not found")
+              indent = old_line[: len(old_line) - len(old_line.lstrip())]
+              replacement = "\n".join([
+                  f'{indent}const noticeLanguageOk = pageName.includes("-en.")',
+                  f'{indent}  ? state.noticeText.includes("Important Test Information") && state.noticeText.includes("false-positive") && !state.noticeText.includes("중요 안내") && !state.noticeText.includes("위양성")',
+                  f'{indent}  : state.noticeText.includes("중요 안내") && state.noticeText.includes("위양성") && !state.noticeText.includes("Important Test Information") && !state.noticeText.includes("false-positive");',
+                  f'{indent}record(pageName, viewport, "{new_label}", state.noticeCount === 1 && noticeLanguageOk, JSON.stringify({{ count: state.noticeCount, textLength: state.noticeText.length }}));',
+              ])
+              text = text.replace(old_line, replacement, 1)
+              path.write_text(text, encoding="utf-8")
+
+      - name: Verify locale split
+        shell: python
+        run: |
+          from pathlib import Path
+          import re
+
+          pairs = [
+              ("index.html", "ko"),
+              ("technology.html", "ko"),
+              ("features.html", "ko"),
+              ("campaign-template.html", "ko"),
+              ("index-en.html", "en"),
+              ("technology-en.html", "en"),
+              ("features-en.html", "en"),
+              ("campaign-template-en.html", "en"),
+          ]
+          for page, lang in pairs:
+              text = Path(page).read_text(encoding="utf-8")
+              match = re.search(r'<div\s+class="test-notice-bar"[\s\S]*?</div>\s*</div>\s*</div>', text)
+              if not match:
+                  raise RuntimeError(f"{page}: notice banner not found")
+              notice = match.group(0)
+              if lang == "ko":
+                  assert "중요 안내" in notice and "위양성" in notice
+                  assert "Important Test Information" not in notice and "false-positive" not in notice
+              else:
+                  assert "Important Test Information" in notice and "false-positive" in notice
+                  assert "중요 안내" not in notice and "위양성" not in notice
+          print("Locale-specific notice verification passed for all 8 pages.")
+
+      - name: Syntax check QA scripts
+        run: |
+          node --check scripts/qa-site.mjs
+          node --check scripts/qa-live.mjs
+          git diff --check
+
+      - name: Commit and push localized notice
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html index-en.html technology.html technology-en.html features.html features-en.html campaign-template.html campaign-template-en.html scripts/qa-site.mjs scripts/qa-live.mjs
+          git commit -m "fix: localize screening notice by page language"
+          git pull --rebase origin main
+          git push origin HEAD:main
