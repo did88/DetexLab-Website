@@ -165,7 +165,10 @@ try {
 
       record(pageName, viewport, "No horizontal overflow", state.scrollWidth <= state.innerWidth + 1, `scrollWidth=${state.scrollWidth}, innerWidth=${state.innerWidth}`);
       record(pageName, viewport, "Header inside viewport", Boolean(state.headerRect) && state.headerRect.left >= -1 && state.headerRect.right <= state.innerWidth + 1, JSON.stringify(state.headerRect));
-      record(pageName, viewport, "Required bilingual notice present", state.noticeCount === 1 && state.noticeText.includes("Important Test Information") && state.noticeText.includes("중요 안내") && state.noticeText.includes("false-positive") && state.noticeText.includes("위양성"), JSON.stringify({ count: state.noticeCount, textLength: state.noticeText.length }));
+      const noticeLanguageOk = pageName.includes("-en.")
+        ? state.noticeText.includes("Important Test Information") && state.noticeText.includes("false-positive") && !state.noticeText.includes("중요 안내") && !state.noticeText.includes("위양성")
+        : state.noticeText.includes("중요 안내") && state.noticeText.includes("위양성") && !state.noticeText.includes("Important Test Information") && !state.noticeText.includes("false-positive");
+      record(pageName, viewport, "Required page-language notice present", state.noticeCount === 1 && noticeLanguageOk, JSON.stringify({ count: state.noticeCount, textLength: state.noticeText.length }));
       record(pageName, viewport, "Notice layout clears header", Boolean(state.noticeRect) && Math.abs(state.noticeRect.top) <= 1 && Boolean(state.headerRect) && state.headerRect.top >= state.noticeRect.bottom + 4, JSON.stringify({ notice: state.noticeRect, header: state.headerRect }));
       record(pageName, viewport, "Notice height synchronized", Boolean(state.noticeRect) && Math.abs(state.noticeHeightVar - state.noticeRect.height) <= 1.5 && state.bodyPaddingTop >= state.noticeRect.height - 1.5, JSON.stringify({ notice: state.noticeRect, cssVar: state.noticeHeightVar, bodyPaddingTop: state.bodyPaddingTop }));
       record(pageName, viewport, "Logo text/wordmark visible", Boolean(state.wordmarkRect) && state.wordmarkRect.width >= 120 && state.wordmarkRect.height > 20 && state.wordmarkLabel.includes("Detex Lab"), JSON.stringify({ rect: state.wordmarkRect, label: state.wordmarkLabel }));
